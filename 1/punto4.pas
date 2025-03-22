@@ -116,6 +116,7 @@ procedure listado(var data: archivo);
 	
  end;
 
+//Añadir un empleado con distinto número de empleado
 procedure add(var data: archivo);
  var empData, empLec: empleados; esta: boolean; fin: integer;
  begin
@@ -142,6 +143,7 @@ procedure add(var data: archivo);
 	close(data); //Cierre
  end;
 
+//Actualización empleado
 procedure update(var data: archivo);
  var numEmpleado: integer; empData: empleados; newAge: integer; esta: boolean;
  begin
@@ -165,6 +167,7 @@ procedure update(var data: archivo);
 	close(data); //Cierre
  end;
 
+//Exportar de BINARIO a TEXTO
 procedure exp(var data: archivo; var dataT: Text);
  var nomText: String; emp: empleados;
  begin
@@ -175,7 +178,7 @@ procedure exp(var data: archivo; var dataT: Text);
 	rewrite(dataT); //Creo y abro archivo de texto 
 	while not eof(data) do begin
 		read(data, emp); //Leo empleado del archivo binario
-		with emp do writeln(num:5, ape:5, nom:5, edad:5, DNI:5); //Escribo en pantalla el registro
+		with emp do writeln(num:5, ape:5, nom:5, edad:5, DNI:5); //Escribo en pantalla el registro para corroborar cada 1
 		with emp do writeln(dataT, ' ', num, ' ', ape, ' ', nom, ' ', edad, ' ', DNI, ' '); {Escribe
 		en el archivo de texto los campos separados por un caracter en blanco}
 		
@@ -184,7 +187,8 @@ procedure exp(var data: archivo; var dataT: Text);
  end;
 
 
-var registros: archivo; op: char; nomFis: String[20]; texto: Text;
+var registros: archivo; op: char; nomFis: String[20];
+	texto: Text; //Archivo de tipo texto
 BEGIN
     writeln('Ingrese un nombre para el archivo a crear o utilizar: ');
 	readln(nomFis);
