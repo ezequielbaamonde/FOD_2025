@@ -73,11 +73,15 @@ procedure descripcion (var a: celus);
 	readln(cadena);
 	writeln('>>> CELULARES coincidentes con su descripcion <<<');
 	while not eof(a) do begin
-		read(a, cel);
-		if (cel.desc = cadena) then begin
-			imprimir(cel); //imprimo datos del celular coincidente
+		read(a, cel); //Leo celular
+		if(pos(cadena, cel.desc) > 0) then begin //Si la descripcion del celular contiene la cadena ingresada
+			imprimir(cel); //Imprimo datos del celular coincidente
 			ok:= true; //Cambio OK a TRUE para dar a entender que almenos 1 celular coincide con la desc
 		end;
+		{if (cel.desc = cadena) then begin
+			imprimir(cel); //imprimo datos del celular coincidente
+			ok:= true; //Cambio OK a TRUE para dar a entender que almenos 1 celular coincide con la desc
+		end;}
 	end;
 	if (ok = true) then writeln('**Listado de celulares OK**')
 	else writeln('**No hay celulares que coincidan con su descripcion**');
