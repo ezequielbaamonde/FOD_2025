@@ -1,0 +1,12 @@
+1 200
+Ezequiel
+1 300
+Ezequiel
+1 400
+Ezequiel
+1 500
+Ezequiel
+2 300
+Fabricio
+3 100
+Blas
