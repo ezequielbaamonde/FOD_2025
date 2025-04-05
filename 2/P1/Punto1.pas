@@ -1,4 +1,4 @@
-//Archivos Secuenciales ordenados - Algorítmica Clásica
+//Archivos Secuenciales ordenados - Algorítmica Clásica | Ok
 program punto1;
 
 const
