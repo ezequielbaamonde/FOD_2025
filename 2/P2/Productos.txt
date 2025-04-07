@@ -1,0 +1,6 @@
+01 Martillo
+1500 10 5
+02 Destornillador
+2000 5 1
+03 Moladora
+8500 3 2
