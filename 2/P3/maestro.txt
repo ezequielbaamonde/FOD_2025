@@ -1,6 +1,3 @@
-Buenos Aires
-0 0
-Tucuman
-0 0
-Neuquen
-0 0
+0 0 Buenos Aires
+0 0 Tucuman
+0 0 Neuquen
