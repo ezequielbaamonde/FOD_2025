@@ -1,0 +1,8 @@
+Buenos Aires
+1 20 30
+Buenos Aires
+2 10 10
+Tucuman
+4 2 10
+Neuquen
+3 30 0
