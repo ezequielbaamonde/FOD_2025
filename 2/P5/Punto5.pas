@@ -1,3 +1,5 @@
+{Consultar cómo seria la creación del maestro teniendo en cuenta el orden de cada campo}
+
 program LAN;
 const
 	DF = 5;
@@ -122,7 +124,10 @@ procedure crearMaestro(var m: maestro; var vecDet: maquinas);
     regMae.tiempo_total_de_sesiones_abiertas:= total;
     write(mae, regMae); //Escribo archivo maestro y avanzo
   end;
-  
+  close(m);
+  for i:= 1 to DF do begin
+	close(vecDet[i]); //Cierro detalles
+  end;
   
  end;
  
