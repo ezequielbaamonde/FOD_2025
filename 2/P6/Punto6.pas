@@ -91,7 +91,7 @@ procedure crearVariosDetalles(var v: vectorDetalles);
 procedure actualizarMaestro(var mae: maestro; var vecDet: vectorDetalles; var cant: integer);
  var vecReg: vectorRegistros;
      min: infoDetalle;
-     regNew: infoMaestro;
+     infoMae: infoMaestro;
      i, aux, aux2, totalActivos, totalNuevos: integer;
  begin
     assign(mae, 'maestro.dat'); //se asume que está creado
@@ -103,41 +103,36 @@ procedure actualizarMaestro(var mae: maestro; var vecDet: vectorDetalles; var ca
     end;
 
     minimo(vecDet, vecReg, min);
-    
+    read(mae, infoMae);
+
     while (min.codLocalidad <> valorAlto) do begin
         aux:= min.codLocalidad;
         writeln('Código de Localidad: ', aux);
-        while (aux = min.codLocalidad) do begin
-            aux2:= min.codCepa;
-            totalFallecidos:= 0;
-            totalRecuperados:= 0;
-            totalActivos:= 0;
-            totalNuevos:= 0;
-            writeln('Código de Cepa: ', aux2);
-            while (aux = min.codLocalidad) and (aux2 = min.codCepa) do begin
-               totalFallecidos:= totalFallecidos + min.casosFallecidos;
-               totalRecuperados:= totalRecuperados + min.casosRecuperados;
-               totalNuevos:= totalNuevos + min.casosNuevos;
-               totalActivos:= totalActivos + min.casosActivos;
-                //Leo el siguiente detalle
-                minimo(vecDet, vecReg, min);
-            end; //fin while aux2
 
-            read(mae, regNew); //Leo maestro para actualizar
-		    while (regNew.cod <> aux) do //Busco el codproducto maestro que coincida con el codproducto del detalle
-			    read(mae, infoMae);
-            
-            //Actualizo maestro
-            regNew.casosFallecidos:= regNew.casosFallecidos + totalFallecidos;
-            regNew.casosRecuperados:= regNew.casosRecuperados + totalRecuperados;
-            regNew.casosNuevos:= totalNuevos; //se actualizan con el valor recibido en el detalle.
-            regNew.casosActivos:= totalActivos; //se actualizan con el valor recibido en el detalle.
-            
-            if (totalActivos > 50) then cant:= cant + 1; //Contador de localidades con más de 50 casos activos
-            
-            seek(mae, filepos(mae)-1); //Me posiciono en el registro que leí antes
-            write(mae, regNew); //Escribo el nuevo registro actualizado
-            writeln('Actualizado maestro: ', regNew.codLocalidad, ' ', regNew.casosActivos, ' ', regNew.casosNuevos, ' ', regNew.casosRecuperados, ' ', regNew.casosFallecidos);      
+        {Busqueda de criterios de orden}
+        while (infoMae.codLocalidad <> aux) and (not eof(mae)) do begin
+            read(mae, infoMae); //Leo maestro hasta encontrar el registro que corresponde al detalle
+        end;
+
+        while(infoMae.codCepa <> min.codCepa) do
+            read(mae, infoMae); //Leo maestro hasta encontrar el registro que corresponde al detalle
+
+        {PRE-CONDICIONES}
+        while(infoMae.codLocalidad = min.codLocalidad) and (infoMae.codCepa = min.codCepa) do begin
+            {//Actualizo maestro con los datos del detalle}
+            infoMae.casosFallecidos:= infoMae.casosFallecidos + min.casosFallecidos; //se suman los casos fallecidos
+            infoMae.casosRecuperados:= infoMae.casosRecuperados + min.casosRecuperados; //se suman los casos recuperados
+            infoMae.casosActivos:= min.casosActivos; //se actualizan los casos activos
+            infoMae.casosNuevos:= min.casosNuevos; //se actualizan los casos nuevos
+            minimo(vecDet, vecReg, min);
+        end;
+        {Acumulador}
+        if (infoMae.casosActivos > 50) then cant:= cant + 1; //Contador de localidades con más de 50 casos activos
+        {Escribo en MAESTRO}
+        seek(mae, filepos(mae)-1);
+        write(mae, infoMae);
+
+        writeln('Actualizado maestro: ', regNew.codLocalidad, ' ', regNew.casosActivos, ' ', regNew.casosNuevos, ' ', regNew.casosRecuperados, ' ', regNew.casosFallecidos);      
         end;
     end; 
     close(mae); //cierro maestro
