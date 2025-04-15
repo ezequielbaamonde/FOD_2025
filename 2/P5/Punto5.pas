@@ -118,6 +118,7 @@ procedure crearMaestro(var m: maestro; var vecDet: maquinas);
 			minimo(vecDet, vecReg, min);
 		end;
 		writeln('Total de tiempo de sesion del usuario en la fecha indicada: ', total);
+  // Pasar a aca las lineas de codigo de debajo. Apuntes en carpeta
 	end;
 	regMae.cod_Usuario:= aux;
     regMae.fecha:= aux2;
