@@ -87,7 +87,6 @@ procedure minimo(var vecDet: maquinas; var vecReg: maquinasReg; var min: infoDet
   //Lectura sig detalle
   if (min.cod_usuario <> valorAlto) and (min.fecha <> stringAlto) then
    leer(vecDet[i], vecReg[i]); //Leo detalle minimo para avanzar al sig reg.
-   
  end;
  
 procedure crearMaestro(var m: maestro; var vecDet: maquinas);
@@ -118,12 +117,12 @@ procedure crearMaestro(var m: maestro; var vecDet: maquinas);
 			minimo(vecDet, vecReg, min);
 		end;
 		writeln('Total de tiempo de sesion del usuario en la fecha indicada: ', total);
-  // Pasar a aca las lineas de codigo de debajo. Apuntes en carpeta
+		regMae.cod_Usuario:= aux;
+    	regMae.fecha:= aux2;
+		regMae.tiempo_total_de_sesiones_abiertas:= total;
+		write(mae, regMae); //Escribo archivo maestro y avanzo
 	end;
-	regMae.cod_Usuario:= aux;
-    regMae.fecha:= aux2;
-    regMae.tiempo_total_de_sesiones_abiertas:= total;
-    write(mae, regMae); //Escribo archivo maestro y avanzo
+	
   end;
   close(m);
   for i:= 1 to DF do begin
