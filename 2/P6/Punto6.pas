@@ -1,6 +1,6 @@
 program covid;
 const valorAlto = 9999;
-      DF = 10; //cantidad de localidades
+      DF = 10; //cantidad de localidades.
 type
     infoDetalle = record
         codLocalidad: integer; //orden
