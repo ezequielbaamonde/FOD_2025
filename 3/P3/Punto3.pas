@@ -35,10 +35,10 @@ procedure iniCabecera (var c: aNovelas; var r: novela);
  begin
  r.cod:= 0;
  r.gen:= '';
- r.nom:= ''
+ r.nom:= '';
  r.duracion:= '';
  r.director:= '';
- precio:= 0;
+ r.precio:= 0;
  write(c, r); //Escribo el reg cabecera en el archivo
  end;
 
@@ -47,7 +47,7 @@ procedure crear();
      nom: String;
      reg: novela;
  begin
-  writeln('Ingrese el nombre del archivo a crear: ')
+  writeln('Ingrese el nombre del archivo a crear: ');
   readln(nom);
   assign(nuevo, nom);
   rewrite(nuevo);
@@ -72,7 +72,7 @@ procedure alta (var a: aNovelas);
     pos:= aux.cod * (-1); 
     seek(a, pos); //me dirijo a la posicion positiva del registro a leer
     read(a, aux); //me guardo el registro que hay en esa pos
-    seek(a, FilePos(a)-1) //Vuelvo a POS originalmente.
+    seek(a, FilePos(a)-1); //Vuelvo a POS originalmente.
     write(a, regNov); //Escribo la nueva novela en la pos disponible
     seek(a, 0); //Vuelvo a la pos 0 de mi archivo
     write(a, aux); //Escribo el registro que estaba en la pos disponible
@@ -108,7 +108,7 @@ procedure editar(var a: aNovelas);
  readln(cod);
  read(a, regNov);
  while (not eof(a)) and (cod <> regNov.cod) do
-    read(a, regNov)
+    read(a, regNov);
 
  if (regNov.cod = cod) then begin
     editarNovela(regNov); //Sin modificar su codigo
@@ -128,9 +128,9 @@ procedure baja(var a: aNovelas);
   reset(a);
   writeln('Ingrese el codigo de la novela a eliminar: ');
   readln(cod);
-  read(a, regNov)
+  read(a, regNov);
   while(not eof(a)) and (cod <> regNov.cod) do
-    read(a, regNov)
+    read(a, regNov);
   
   if (regNov.cod = cod) then begin
     pos:= FilePos(a)-1; //Posicion del registro a eliminar
@@ -158,7 +158,7 @@ procedure abrir();
      nom: String;
      op: integer;
  begin
-  writeln('Ingrese el nombre del archivo a abrir: ')
+  writeln('Ingrese el nombre del archivo a abrir: ');
   readln(nom);
   assign(exis, nom);
   writeln('**MENU DE OPERACIONES**');
@@ -166,7 +166,7 @@ procedure abrir();
   writeln('--> 2: Modificar datos de una novela');
   writeln('--> 3: Eliminar una novela');
   repeat
-    writeln('> Ingrese una opcion del menu <')
+    writeln('> Ingrese una opcion del menu de operaciones <');
     readln(op);
     case op of
         1: alta(exis);
@@ -195,9 +195,9 @@ procedure listar();
   rewrite(txt);
   while (not eof(exis)) do begin
     read(exis, reg);
-    writeln(txt, reg.cod, '', reg.precio);
+    writeln(txt, reg.cod, ' ', reg.precio:2:2);
     writeln(txt, reg.gen);
-    writeln(txt, reg.nom);
+    write(txt, reg.nom);
     writeln(txt, reg.director);
     writeln(txt,reg.duracion);
   end;
@@ -213,14 +213,17 @@ BEGIN
  writeln('--> b: Abrir el existente y realizar mantenimiento');
  writeln('--> c: Listar las novelas en un archivo de texto');
  repeat
-    writeln('> Ingrese una opcion del menu <');
-    readln(op)
+    writeln('> Ingrese una opcion del menu principal <');
+    readln(op);
     case op of
        'a': crear();
        'b': abrir();
        'c': listar();
     else
-       writeln('Opción incorrecta -> "zzz" para salir del programa...');
-    end;   
- until (op = 'zzz');
+	 begin
+       if (op <> 'z') then
+		writeln('Opcion incorrecta -> "z" para salir del programa...');
+     end;
+    end;
+ until (op = 'z');
 END.
