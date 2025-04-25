@@ -1,4 +1,5 @@
 {Se asume que se posee el maestro y un archivo de venta}
+{Consultar si, al estar desordenado el maestro, hay que ordenarlo o recorrerlo varias veces}
 program tiendaDeIndumentarias;
 type
     prenda = record
@@ -19,19 +20,21 @@ procedure marcado(var m: maestro; var d: detalle)
      infoMae: prenda;
  begin
     reset(m);
-    read(m, infoMae);
     reset(d);
     while (not eof(d)) do begin
+        read(m, infoMae);
         read(d, p);
         writeln('Codigo de prenda: ', p);
 
         while (not eof(m)) and (infoMae.cod_prenda <> p) do
             read(m, infoMae);
         
-        if (infoMae.cod_prenda = p) then
+        if (infoMae.cod_prenda = p) then begin
             infoMae.stock:= infoMae.stock * (-1);
             seek(m, filepos(m)-1);
             write(m, infoMae);
+        end;
+        seek(m, 0); //Vuelta al inicio porque el maestro no está ordenado.
     end;
     close(m); close(d);
  end;
