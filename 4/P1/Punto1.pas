@@ -1,6 +1,6 @@
 program UNLP;
 const
-    M = 4;
+    M = 8;
 type
     alumnos = record
         nom: String;
@@ -58,5 +58,4 @@ Inciso E.
 
 Inciso F.
  -> Se debe recorrer todo el arbol hasta encontrar el alumno.
- 
 }
