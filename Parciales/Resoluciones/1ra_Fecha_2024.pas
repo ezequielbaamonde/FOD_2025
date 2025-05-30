@@ -1,4 +1,4 @@
-program PrimerFecha2024;
+program PrimerFecha2024_P1;
 
 const
     valorAlto = 9999;
