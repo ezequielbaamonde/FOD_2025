@@ -26,7 +26,7 @@ type
 	vectorRegistros = array [subrango] of infoDet; //array de Registros detalles
 
 	
-procedure leer(var arc: vectorDetalles; var dat: infoDet);
+procedure leer(var arc: detalle; var dat: infoDet);
  begin
 	if (not eof(arc)) then
 		read(arc, dat) //Leo arc binario 'detalle' y guardo registro leido en dat

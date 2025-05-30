@@ -15,7 +15,7 @@ type
 procedure leer (var arc: Text; var dat: empleados);
  begin
 	if (not eof(arc)) then begin
-		readln (arc, dat.cod, dat. monto); //Almaceno el registro leido en dato con cada campo
+		readln (arc, dat.cod, dat.monto); //Almaceno el registro leido en dato con cada campo
 		readln(arc, dat.nom);
 	end
 	else
