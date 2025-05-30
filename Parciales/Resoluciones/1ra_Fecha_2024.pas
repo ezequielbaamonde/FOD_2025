@@ -49,69 +49,59 @@ procedure generarInforme (var m: maestro);
     reset(m); {apertura maestro}
     leer(m, regMae); {primer lectura}
     fechaMae:= extraerAño(regMae.fecha); //Extraigo año
-    
-    totalVentasSucursal:= 0;
-    totalMontosSucursal:= 0;
 
-    {si no esta vacio, escribe la primer sucursal}
-    if (regMae.numSuc <> valorAlto) then
-        writeln(t, 'Sucursal ', regMae.numSuc); //Primer sucursal
-
-    {el quilombo en cuestión: }
+    {el quilombo en cuestión}
     while(regMae.numSuc <> valorAlto) do begin
         codSuc:= regMae.numSuc; //Almaceno temporalmente numero de sucursal
+        writeln(t, 'Sucursal ', regMae.numSuc); //Primer sucursal
+        totalVentasSucursal:= 0;
+        totalMontosSucursal:= 0;
 
-        dniEmp:= regMae.dni; //Almaceno temporalmente DNI
-        writeln('DNI del empleado: ', dniEmp);
+        {mientras la sucursal siga siendo la misma}
+        while (regMae.numSuc = codSuc) do begin
+            dniEmp:= regMae.dni; //Almaceno temporalmente DNI
+            writeln('DNI del empleado: ', dniEmp);
 
-        totalVentas:= 0; totalMontos:= 0; //Totales del empleado
-        
-        writeln(t, 'Empleado: DNI ', dniEmp); //Escribo el DNI del empleado a tratar en TXT
-        writeln(t, 'Año', '', 'Cantidad de ventas', '', 'Monto de ventas'); //Escribo LABELS de datos 
-        
-        {se procesan todos los registros de una misma sucursal y un mismo dni de empleado}
-        while (regMae.numSuc = codSuc) and (regMae.dni = dniEmp) do begin 
-            fec:= fechaMae; //ALmaceno temporalmente el año
+            totalVentas:= 0; totalMontos:= 0; //Totales del empleado
+            
+            writeln(t, 'Empleado: DNI ', dniEmp); //Escribo el DNI del empleado a tratar en TXT
+            writeln(t, 'Año', '', 'Cantidad de ventas', '', 'Monto de ventas'); //Escribo LABELS de datos 
+            
+            {se procesan todos los registros de una misma sucursal y un mismo dni de empleado}
+            while (regMae.numSuc = codSuc) and (regMae.dni = dniEmp) do begin 
+                fec:= fechaMae; //ALmaceno temporalmente el año
 
-            cantVentas:= 0; //Cantidad de ventas en el año
-            montoVentas:= 0; //Montos de esas ventas del año
+                cantVentas:= 0; //Cantidad de ventas en el año
+                montoVentas:= 0; //Montos de esas ventas del año
 
-            {se procesan todos los registros de una misma sucursal, de un mismo empleado en el mismo año}
-            while (regMae.numSuc = codSuc) and (regMae.dni = dniEmp) and (fechaMae = fec) do begin
-                cantVentas:= cantVentas + 1; //Acumulo cantidad de ventas (prestamos) por año
-                montoVentas:= montoVentas + regMae.monto; //Acumulo montos por ventas(Prestamos) del año
-                leer(m, regMae); //Avanza el puntero
-                fechaMae:= extraerAño(regMae.fecha); //Extraigo año
+                {se procesan todos los registros de una misma sucursal, de un mismo empleado en el mismo año}
+                while (regMae.numSuc = codSuc) and (regMae.dni = dniEmp) and (fechaMae = fec) do begin
+                    cantVentas:= cantVentas + 1; //Acumulo cantidad de ventas (prestamos) por año
+                    montoVentas:= montoVentas + regMae.monto; //Acumulo montos por ventas(Prestamos) del año
+                    leer(m, regMae); //Avanza el puntero
+                    fechaMae:= extraerAño(regMae.fecha); //Extraigo año
+                end;
+
+                {si el año, dni o sucursal no es el mismo}
+                writeln(t, fec, cantVentas, montoVentas); //año, cantidad de ventas, Monto de ventas
+
+                {sigo acumulando totales del empleado}
+                totalVentas:= totalVentas+cantVentas; //Total de todos los años
+                totalMontos:= totalMontos + montoVentas; //Total de todos los años
             end;
+            {si el DNI o sucursal cambia, yo tengo que escribir la cantidad de ventas
+            total del empleado y montos totales de empleado}
+            writeln(t, 'Totales', totalVentas, totalMontos);
 
-            {si el año, dni o sucursal no es el mismo, yo tengo que
-            escribir la cantidad de ventas y montos de ese empleado en ese año}
-            writeln(t, fec, cantVentas, montoVentas);
-
-            {sigo acumulando totales del empleado}
-            totalVentas:= totalVentas+cantVentas; //Total de todos los años
-            totalMontos:= totalMontos + montoVentas; //Total de todos los años
+            {Si el empleado cambió, debo ir sumando de igual manera el total de la sucursal antes de setear
+            en 0 las ventas y montos de otro empleado}
+            totalVentasSucursal:= totalVentasSucursal + totalVentas;
+            totalMontosSucursal:= totalMontosSucursal + totalMontos;
         end;
-        {Si el empleado cambió, debo ir sumando de igual manera el total de la sucursal antes de setear
-        en 0 las ventas y montos de otro empleado}
-        totalVentasSucursal:= totalVentasSucursal + totalVentas;
-        totalMontosSucursal:= totalMontosSucursal + totalMontos;
-        
-        {si el DNI o sucursal cambian, yo tengo que
-        escribir la cantidad de ventas total del empleado y montos totales de empleado}
-        writeln(t, 'Totales', totalVentas, totalMontos);
-
-        {Si cambia la sucursal, escribo lo restante.
-         Sino, vuelve a la primer linea del while viendo que sea distinto de valor alto
-        y comienza con otro empleado}
-        if(codSuc <> regMae.numSuc) then begin
-            writeln(t, 'Cantidad total de ventas sucursal: ', totalVentasSucursal);
-            writeln(t, 'Monto total vendido por sucursal: ', totalMontosSucursal);
-            writeln(t, ''); //Espacio en blanco
-            totalVentasSucursal:= 0; //Seteamos en cero para siguiente sucursal
-            totalMontosSucursal:= 0; //Seteamos en cero para siguiente sucursal
-            writeln(t, 'Sucursal ', regMae.numSuc); //Nueva sucursal
-        end,
+        {Si cambia la sucursal, escribo lo restante}
+        writeln(t, 'Cantidad total de ventas sucursal: ', totalVentasSucursal);
+        writeln(t, 'Monto total vendido por sucursal: ', totalMontosSucursal);
+        writeln(t, ''); //Espacio en blanco
     end;
     close(m); close(t); //Cierre de archivos.
  end;
