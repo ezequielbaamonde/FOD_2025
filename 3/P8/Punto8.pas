@@ -72,7 +72,6 @@ procedure AltaDistribucion(var a: archivo; var d: distribucion);
 procedure BajaDistribucion(var a: archivo; nom: String;);
  var posAux: integer;
      reg, regCabe: distribucion;
-     
  begin
     BuscarDistribucion(a, nom, posAux);
     if (posAux <> -1) then begin

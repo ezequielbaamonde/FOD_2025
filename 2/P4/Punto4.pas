@@ -144,7 +144,7 @@ procedure updateMaster(var mae: maestro; var vecD: vectorDetalles);
 	while (min.cod <> valorAlto) do begin
 		aux:= min.cod; //Cod producto temporal
 		cant:= 0; //Inicializo en cero el stock a restar
-		while (min.cod <> valorAlto) and (min.cod = aux) do begin
+		while (min.cod = aux) do begin
 			cant:= cant + min.cantVendida;
 			minimo(vecD, vecReg, min);
 		end;
