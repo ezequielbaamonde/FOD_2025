@@ -1,5 +1,7 @@
 program linux;
 
+const valorAlto = 9999;
+
 {Se CUENTA con un archivo con información de las diferentes
 distribuciones de linux existentes}
 type
@@ -13,14 +15,22 @@ type
 
     archivo = file of distribucion;
 
+
+procedure leer(var a: archivo; var r: distribucion);
+ begin
+    if (not eof(a)) then
+        read(a, r)
+    else
+        r.anio:= valorAlto;
+ end;
+
 procedure BuscarDistribucion(var a: archivo; d: String; var p: integer);
  var reg, regCabe: distribucion;
  begin
     reset(a);
-    read(a, regCabe); //Leo cabecera
-    read(a, reg); //Leo 1er registro
-    while (not eof (a)) and (reg.nom <> d) do
-        read(a, reg);
+    leer(a, reg)
+    while (reg.anio <> valorAlto) and (reg.nom <> d) do
+        leer(a, reg);
     if (reg.nom = d) then
         pos:= (FilePos(a) - 1); //Almaceno pos del reg buscado
     else

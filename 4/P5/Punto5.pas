@@ -1,7 +1,7 @@
 {
 OverFlow --> Surge cuando se inserta un elemento a un nodo y este se encuentra lleno
 
-Underflow --> Surge cuando se realiza una baja pero el nodo queda vacio (Un nodo debe tener minimo 1 elemento)
+Underflow --> Surge cuando se realiza una baja pero el nodo tiene menor cantidad de claves que el mínimo(Un nodo debe tener minimo 1 elemento)
 
 Redistribución --> Posible solución tras UNDERFLOW.
     -> Puede trasladarse llaves/claves de un nodo adyacente hermano (en caso que este tenga suficientes elementos)
