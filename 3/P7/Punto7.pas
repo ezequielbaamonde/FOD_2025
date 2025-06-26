@@ -88,16 +88,16 @@ procedure bajaFisica(var arc: archivo);
     if (aux > 0) then begin
       pos:= FilePos(arc) - 1; //Pos reg a eliminar
       seek(arc, FileSize(arc) - count); //final del archivo - corrimientos a la izq
-      read(arc, regAux); //Leo reg del final
+      read(arc, regAux); //Leo reg ubicado en el final
       seek(arc, filepos(arc) - 1); //vuelvo a apuntar al reg final, no a eof
-      write(arc, reg); //Muevo elem a borrar
-      seek(arc, pos);
+      write(arc, reg); //Escribo elem a borrar
+      seek(arc, pos); //Vuelvo a la pos del elem con marca de borrado
       write(arc, regAux); //Muevo elem final a donde tenia el reg a eliminar
-      count:= count + 1; //Incremento contador
+      count:= count + 1; //Incremento contador para que el proximo reg a eliminar se mueva x veces hacia la izq desde el final
     end;
   end;
   count:= count - 1; //Si no resto, me muevo un lugar más
-  seek(arc, FileSize(arc) - count);
+  seek(arc, FileSize(arc) - count); //Me muevo al registro a eliminary todo lo que sigue
   truncate(arc);
   close(arc);
  end;
